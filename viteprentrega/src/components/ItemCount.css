@@ -1,0 +1,39 @@
+.CardItem {
+    border: 1px solid #ddd;
+    margin: 10px auto; /* Margen superior e inferior a 10px y centrar horizontalmente */
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.CardItem:hover {
+    transform: scale(1.05);
+}
+
+.Header {
+    text-align: center;
+}
+
+.ItemHeader {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.ItemImg {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Añadir bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Info {
+    margin: 5px 0;
+    color: #666;
+}
+
+.ItemFooter {
+    margin-top: 10px;
+}

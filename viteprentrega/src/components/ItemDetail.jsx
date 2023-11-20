@@ -1,4 +1,4 @@
-import "./itemDetail.css"
+import "./ItemDetail.css"
 import ItemCount from "../components/ItemCount"
 const ItemDetail =({id, name, img, category, description, price, stock}) => {
     return (
