@@ -37,3 +37,37 @@
 .ItemFooter {
     margin-top: 10px;
 }
+
+
+.Counter {
+    text-align: center;
+    margin: 20px auto; /* Margen superior e inferior automático, y centrado horizontal */
+    max-width: 300px; /* Ancho máximo para mayor legibilidad y estética */
+  }
+  
+  .Controls {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar elementos horizontalmente */
+  }
+  
+  .Button {
+    font-size: 1rem;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .Button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
+  .Number {
+    font-size: 1.2rem;
+    margin: 0 10px;
+  }

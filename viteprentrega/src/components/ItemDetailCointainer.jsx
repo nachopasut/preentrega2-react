@@ -1,7 +1,7 @@
 import "./ItemDetailContainer.css"
 import { useState, useEffect } from "react" 
 import { getProductsById} from '../components/AsyncMock'
-import ItemDetail from "../components/ItemDetailCointainer"
+import ItemDetail from "./ItemDetail"
 import { useParams } from "react-router-dom"
  
 const ItemDetailCointainer = () => {
