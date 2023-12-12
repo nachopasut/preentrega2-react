@@ -1,26 +1,30 @@
 import "./ItemDetailContainer.css"
 import { useState, useEffect } from "react" 
-import { getProductsById} from '../components/AsyncMock'
+import {getDoc,dbc} from "firebase/firestore"
+import {db} from "./FireBaseConfig"
 import ItemDetail from "./ItemDetail"
-import { useParams } from "react-router-dom"
+import { Form, useParams } from "react-router-dom"
  
 const ItemDetailCointainer = () => {
     const [product, setProduct] = useState(null)
     const {itemId} = useParams()
-    useEffect(() =>{
-    getProductsById (itemId)
-    .then(response =>{
-        setProduct(response)
+useEffect(() => {
+    setLoading(true)
+    const docRef = doc (db, 'products', itemId)
+    getDoc (docRef)
+    .then (response =>{
+        const data = response.data ()
+        const productsAdapted = {id : response.id,...data}
+        setProduct(productsAdapted)
     })
     .catch (error =>{
-        console.error(error)
+        console.log (error)
     })
-}, [itemId])
-return(
-    <div className="ItemDetailCointainer">
-        <ItemDetail{...product}/>
-    </div>
-)
+    .finally (() => {
+        setLoading(false)
+    }
+    )
+})
 }
  export default ItemDetailCointainer
 
