@@ -7,6 +7,7 @@ import ItemCount from './components/ItemCount';
 import ItemDetailCointainer from './components/ItemDetailCointainer'
 import { CartProvider } from './components/CartContext';
 import Card from './components/CartWidget';
+import Checkout from './Checkout';
 
 function App() {
   return (

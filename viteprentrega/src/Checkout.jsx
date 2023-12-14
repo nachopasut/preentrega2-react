@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { db, Timestamp, doc, collection, writeBatch, getDoc, addDoc } from "./components/FireBaseConfig";
 import CheckoutForm from "./CheckoutForm";
-import { CartContext } from "./CartContext";
+import { CartContext } from "./components/CartContext";
 
 const Checkout = () => {
   const [loading, setLoading] = useState(false);
@@ -12,15 +12,11 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      const objOrder = {
-        buyer: {
-          name,
-          phone,
-          email,
-        },
+      const orderData = {
+        buyer: { name, phone, email },
         items: cart,
         total: total,
-        date: Timestamp.fromDate(new Date()),
+        date: Timestamp.fromDate(new Date())
       };
 
       const batch = writeBatch(db);
@@ -48,14 +44,14 @@ const Checkout = () => {
         await batch.commit();
 
         const orderRef = collection(db, 'orders');
-        const orderAdded = await addDoc(orderRef, objOrder);
+        const orderAdded = await addDoc(orderRef, orderData);
         setOrderId(orderAdded.id);
         clearCart();
       } else {
-        console.error('No hay productos que estén en stock');
+        console.error('No hay productos en stock suficiente.');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error al crear la orden:', error);
     } finally {
       setLoading(false);
     }
