@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { db, Timestamp, doc, collection, writeBatch, getDoc, addDoc } from "./components/FireBaseConfig";
+import { db, collection, addDoc, Timestamp, doc, writeBatch, getDoc } from "./components/FireBaseConfig";
 import CheckoutForm from "./CheckoutForm";
 import { CartContext } from "./components/CartContext";
 

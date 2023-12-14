@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, Timestamp } from "firebase/firestore";
+import { getFirestore, collection, addDoc, Timestamp } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDZ9L4KIJ4UEb4J5SdUoKR84dqJQek7sFU",
@@ -10,7 +10,8 @@ const firebaseConfig = {
     appId: "1:624672405477:web:8b338f242a74d61d52610c",
     measurementId: "G-E1E6VFXPN6"
   };
+
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   
-  export { db, Timestamp };
+  export { db, collection, addDoc, Timestamp };
