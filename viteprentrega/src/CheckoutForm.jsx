@@ -17,7 +17,7 @@ const CheckoutForm = ({ onConfirm }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Llama a la función onConfirm del padre con los datos del formulario
+  
     onConfirm(formData);
   };
 

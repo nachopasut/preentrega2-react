@@ -1,7 +1,8 @@
-import { db, Timestamp, collection, writeBatch, query, where, getDocs, addDoc } from "./components/FireBaseConfig";
+import React, { useContext, useState } from "react";
+import { db, Timestamp, doc, collection, writeBatch, getDoc, addDoc } from "./components/FireBaseConfig";
 import CheckoutForm from "./CheckoutForm";
-import { useContext, useState } from "react";
-import { CartContext } from "./CartContext"; 
+import { CartContext } from "./CartContext";
+
 const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState('');
@@ -24,27 +25,28 @@ const Checkout = () => {
 
       const batch = writeBatch(db);
       const outOfStock = [];
-      const ids = cart.map((prod) => prod.id);
-      const productsRef = collection(db, 'products');
-      const productsAddedFromFirestore = await getDocs(query(productsRef, where('documentalId'))); // Replace 'documentalId' with the correct field name
+      const stockUpdates = {};
 
-      const { docs = productsAddedFromFirestore } = productsAddedFromFirestore;
+      for (const prod of cart) {
+        const docRef = doc(db, 'products', prod.id);
+        const productDoc = await getDoc(docRef);
 
-      docs.forEach((doc) => {
-        const dataDoc = doc.data();
-        const stockDb = dataDoc.stock;
-        const producAddedtoCart = cart.find((prod) => prod.id === doc.id);
-        const productQuantity = producAddedtoCart?.quantity;
+        if (productDoc.exists()) {
+          const stockDb = productDoc.data().stock;
+          const productQuantity = prod.quantity;
 
-        if (stockDb >= productQuantity) {
-          batch.update(doc.ref, { stock: stockDb - productQuantity });
-        } else {
-          outOfStock.push({ id: doc.id, ...dataDoc });
+          if (stockDb >= productQuantity) {
+            stockUpdates[prod.id] = stockDb - productQuantity;
+            batch.update(docRef, { stock: stockDb - productQuantity });
+          } else {
+            outOfStock.push({ id: prod.id, ...productDoc.data() });
+          }
         }
-      });
+      }
 
       if (outOfStock.length === 0) {
         await batch.commit();
+
         const orderRef = collection(db, 'orders');
         const orderAdded = await addDoc(orderRef, objOrder);
         setOrderId(orderAdded.id);
@@ -53,7 +55,7 @@ const Checkout = () => {
         console.error('No hay productos que estén en stock');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
